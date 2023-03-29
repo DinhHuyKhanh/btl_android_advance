@@ -1,6 +1,8 @@
-
+import httpx
 
 class UserService():
 
-    def get_all_user(self, model):
-        return model.get_all_user()
+    async def get_all_user(self, url):
+        async with httpx.AsyncClient() as client:
+            response = await client.get(url)
+            return response.json()
