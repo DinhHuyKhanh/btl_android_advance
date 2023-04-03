@@ -2,9 +2,8 @@
 from app.service.user_service import UserService
 from model.implementation.user_implement import UserImplement
 
-#SERVICE
+# SERVICE
 user_service = UserService()
 
-
-#MODEL
+# MODEL
 user_model = UserImplement()
