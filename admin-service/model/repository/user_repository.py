@@ -1,6 +1,6 @@
 from sqlalchemy.orm.session import Session
-from model.database import SessionLocal, get_db
-from model.models import DbUser
+from model.database import SessionLocal
+from model.models import User
 
 class UserRepository():
 
@@ -8,4 +8,4 @@ class UserRepository():
         self.db = SessionLocal()
 
     def get_all_users(self):
-        return self.db.query(DbUser).all()
+        return self.db.query(User).all()
