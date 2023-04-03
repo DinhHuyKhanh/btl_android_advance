@@ -5,7 +5,7 @@ from sqlalchemy.engine.url import URL
 from conf import DATABASE
 
 
-db_url = create_engine(URL(**DATABASE), pool_pre_ping=True)
+db_url = create_engine(DATABASE, pool_pre_ping=True)
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=db_url)
 Base = declarative_base()
