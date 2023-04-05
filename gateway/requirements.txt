@@ -1,6 +1,0 @@
-fastapi
-uvicorn
-sqlalchemy
-mysql-connector-python
-python-dotenv
-PyJWT==1.7.1
