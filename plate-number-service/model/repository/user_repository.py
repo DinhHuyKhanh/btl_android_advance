@@ -43,11 +43,11 @@ class UserRepository():
     
     def update(self, id, filter):
         try:
-            data = self.db.query(DbUser).filter_by(id = id)
+            data = self.db.query(DbUser).filter_by(id=id)
             count = data.update(filter)
             self.db.commit()
 
             return count
         except Exception as e:
             logger.exception(e)
-            return None
+            return -1
