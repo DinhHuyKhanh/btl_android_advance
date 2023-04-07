@@ -9,9 +9,9 @@ class UserRepository():
     def __init__(self) -> None:
         self.db = SessionLocal()
 
-    def get_all_users(self):
+    def get_all_users(self, filter=None):
         try:
-            return self.db.query(DbUser).all()
+            return self.db.query(DbUser).filter_by(**filter).all()
         except Exception as e:
             logger.exception(e)
             return None
@@ -26,10 +26,17 @@ class UserRepository():
         except Exception as e:
             logger.exception(e)
             return None
-    
-    def get_by_id(self, id):
+        
+    def get(self, id, filter=None):
         try:
-            return self.db.get(DbUser, id)
+            if id is None:
+                return None
+            if not filter:
+                filter = {}
+
+            filter["id"] = id
+            
+            return self.db.query(DbUser).filter_by(**filter).first()
         except Exception as e:
             logger.exception(e)
             return None
