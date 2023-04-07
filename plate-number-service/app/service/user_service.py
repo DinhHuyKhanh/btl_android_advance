@@ -19,5 +19,14 @@ class UserService():
         
         return model.delete(user_id)
     
-    def get_by_id(self, id, model):
-        return model.get_by_id(id)
+    def get_by_id(self, user_id, model):
+        if user_id is None:
+            return None
+        
+        return model.get_by_id(user_id)
+    
+    def update(self, user_id, data, model):
+        if user_id is None:
+            return -1
+        
+        return model.update(user_id, data)
