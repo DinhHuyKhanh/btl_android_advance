@@ -23,4 +23,4 @@ async def create(user: UserSchema):
 
 @router.delete('/{id}')
 async def delete(id: int):
-    return {'data': user_service.delete(id, user_model)}
+    return {'code': user_service.delete_by_id(id, user_model)}
