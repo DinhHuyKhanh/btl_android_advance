@@ -16,6 +16,6 @@ class UserImplement():
     def get_by_id(self, id):
         return UserRepository().get_by_id(id)
     
-    def update(self, id):
+    def update(self, id, filter):
         return UserRepository().update(id, filter)
     
