@@ -1,9 +1,18 @@
-from pydantic import BaseModel
+from typing import Optional
+from pydantic import BaseModel, EmailStr
 
-# Article inside UserDisplay
-class UserBase(BaseModel):
-  username: str
-  email: str
+class UserSchema(BaseModel):
+  fullName: str
+  phoneNumber: str
+  email: EmailStr
   password: str
-  class Config():
-    orm_mode = True
+  personalNumber: str
+  address: str
+  activate: Optional[bool] = True
+  coin: float
+  birthday: str
+
+class UpdateUserSchema(BaseModel):
+  phoneNumber: Optional[str]
+  password: Optional[str]
+  address: Optional[str]
