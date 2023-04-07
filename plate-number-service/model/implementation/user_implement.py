@@ -18,6 +18,10 @@ class UserImplement():
         filter = {"activate": True}
         return UserRepository().get(id, filter)
     
+    def delete(self, id):
+        filter = {"activate": False}
+        return UserRepository().update(id, filter)
+    
     def update(self, id, filter):
         return UserRepository().update(id, filter)
     
