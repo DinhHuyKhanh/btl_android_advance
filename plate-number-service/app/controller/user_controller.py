@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from schemas import UserSchema
+from schemas import UserSchema, UpdateUserSchema
 from app.settings import user_service
 from app.settings import user_model
 
@@ -24,3 +24,8 @@ async def create(user: UserSchema):
 @router.delete('/{id}')
 async def delete(id: int):
     return {'code': user_service.delete_by_id(id, user_model)}
+
+@router.put('/{id}')
+async def update(id: int, user: UpdateUserSchema):
+    user = user.dict()
+    return {'data': user_service.update(id, user, user_model)}
