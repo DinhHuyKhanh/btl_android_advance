@@ -15,3 +15,4 @@ class DbUser(Base):
   activate = Column(Boolean)
   coin = Column(DECIMAL)
   birthday =  Column(String)
+  resetpasswordtoken = Column(String)
