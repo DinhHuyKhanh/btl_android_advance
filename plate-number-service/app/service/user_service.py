@@ -30,3 +30,21 @@ class UserService():
             return -1
         
         return model.update(user_id, data)
+    
+    def reset_password(self, data, model):
+        filter = {"resetpasswordtoken": data["reset_password_token"], "password": data["old_password"]}
+        update = {"password": data["new_password"]}
+        
+        user = model.get_by(filter)
+        if user is None:
+            return -1
+        
+        count = model.update(user.id, update)
+        if count > 0:
+            return self._reset_token_none(user.id, model)
+
+        return -1
+    
+    def _reset_token_none(self, user_id, model):
+        set_reset_password_token_none = {"resetpasswordtoken": None}
+        return model.update(user_id, set_reset_password_token_none)
