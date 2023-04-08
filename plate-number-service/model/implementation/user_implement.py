@@ -28,3 +28,6 @@ class UserImplement():
     def get_and_update(self, filter, update):
         return UserRepository().get_by_and_update(filter, update)
     
+    def get_by(self, filter):
+        return UserRepository().get_by(filter)
+    
