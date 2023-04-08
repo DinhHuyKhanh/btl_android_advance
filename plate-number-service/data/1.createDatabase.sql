@@ -7,12 +7,12 @@ CREATE TABLE IF NOT EXISTS `user_data` (
   `FullName` VARCHAR(255) NOT NULL,
   `PhoneNumber` VARCHAR(255) NOT NULL,
   `Email` VARCHAR(255) NOT NULL,
-  `Password` VARCHAR(255) NOT NULL,
+  `Password` TEXT NOT NULL,
   `PersonalNumber` VARCHAR(255) UNIQUE,
   `Address` VARCHAR(255),
-  `activate` BOOLEAN,
-  `Coin` DECIMAL(10,2),
-  `BirthDay` DATE,
+  `activate` BOOLEAN default 1,
+  `Coin` DECIMAL(10,2) DEFAULT 0,
+  `BirthDay` DATE DEFAULT NOW(),
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB;
 

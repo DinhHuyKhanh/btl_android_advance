@@ -1,17 +1,26 @@
-from fastapi import APIRouter, Response, status
-from enum import Enum
-from typing import Optional
-from app.service.user_service import UserService
-from app.settings import user_service
-from app.settings import user_model
+from fastapi import APIRouter
+from util.helper import wrap_responses
+from app.controller.schema import UserLogin, UserRegister
+from app.settings import UserModelImp, UserModelImp, UserService
 
 router = APIRouter(
     prefix='/users',
     tags=['users']
 )
 
-@router.get(
-  '/',
-  )
+@router.get('')
 def get_all_user():
-    return user_service.get_all_user(user_model)
+    return UserService().get_all_user(UserModelImp())
+
+@router.post('')
+@wrap_responses
+async def create_user(user: UserRegister):
+    user_dict = user.dict()
+    return UserService().register(user_dict, UserModelImp())
+
+@router.post('/login')
+@wrap_responses
+async def login(user: UserLogin):
+    user_dict = user.dict()
+    return UserService().login(user_dict, UserModelImp())
+    
