@@ -41,6 +41,13 @@ class UserRepository():
             logger.exception(e)
             return None
         
+    def get_by(self, filter):
+        try:
+            return self.db.query(DbUser).filter_by(**filter).first()
+        except Exception as e:
+            logger.exception(e)
+            return None
+        
     def get_by_and_update(self, filter, update):
         try:
             data = self.db.query(DbUser).filter_by(**filter)
