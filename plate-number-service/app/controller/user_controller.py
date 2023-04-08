@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from schemas import ResetPasswordSchema, UserSchema, UpdateUserSchema
+from schemas import ResetPasswordSchema, UpdatePasswordSchema, UserSchema, UpdateUserSchema
 from app.settings import user_service
 from app.settings import user_model
 
@@ -34,3 +34,8 @@ async def update(id: int, user: UpdateUserSchema):
 async def reset_password(resetPassword: ResetPasswordSchema):
     resetPassword = resetPassword.dict()
     return {'data': user_service.reset_password(resetPassword, user_model)}
+
+@router.put('/{id}/updatePassword')
+async def update_password(id: int, update_password: UpdatePasswordSchema):
+    update_password = update_password.dict()
+    return {'data': user_service.update_password(id, update_password, user_model)}
