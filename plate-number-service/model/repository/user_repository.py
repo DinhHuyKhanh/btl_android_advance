@@ -40,6 +40,17 @@ class UserRepository():
         except Exception as e:
             logger.exception(e)
             return None
+        
+    def get_by_and_update(self, filter, update):
+        try:
+            data = self.db.query(DbUser).filter_by(**filter)
+            count = data.update(update)
+            self.db.commit()
+
+            return count
+        except Exception as e:
+            logger.exception(e)
+            return None
     
     def update(self, id, filter):
         try:
