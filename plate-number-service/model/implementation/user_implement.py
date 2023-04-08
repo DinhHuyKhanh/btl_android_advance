@@ -25,3 +25,6 @@ class UserImplement():
     def update(self, id, filter):
         return UserRepository().update(id, filter)
     
+    def get_and_update(self, filter, update):
+        return UserRepository().get_by_and_update(filter, update)
+    
