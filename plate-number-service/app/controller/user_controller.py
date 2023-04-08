@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from schemas import UserSchema, UpdateUserSchema
+from schemas import ResetPasswordSchema, UserSchema, UpdateUserSchema
 from app.settings import user_service
 from app.settings import user_model
 
@@ -29,3 +29,8 @@ async def delete(id: int):
 async def update(id: int, user: UpdateUserSchema):
     user = user.dict()
     return {'data': user_service.update(id, user, user_model)}
+
+@router.put('/forget_password')
+async def reset_password(resetPassword: ResetPasswordSchema):
+    resetPassword = resetPassword.dict()
+    return {'data': user_service.reset_password(resetPassword, user_model)}
