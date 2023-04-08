@@ -48,3 +48,9 @@ class UserService():
     def _reset_token_none(self, user_id, model):
         set_reset_password_token_none = {"resetpasswordtoken": None}
         return model.update(user_id, set_reset_password_token_none)
+    
+    def update_password(self, user_id, data, model):
+        filter = {"id": user_id, "password": data["old_password"]}
+        update = {"password": data["new_password"]}
+        
+        return model.get_and_update(filter, update)
