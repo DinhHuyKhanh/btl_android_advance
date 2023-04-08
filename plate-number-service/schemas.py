@@ -14,7 +14,6 @@ class UserSchema(BaseModel):
 
 class UpdateUserSchema(BaseModel):
   phoneNumber: Optional[str]
-  password: Optional[str]
   address: Optional[str]
 
 class EmailSchema(BaseModel):
@@ -22,5 +21,9 @@ class EmailSchema(BaseModel):
 
 class ResetPasswordSchema(BaseModel):
   reset_password_token: str
+  old_password: str
+  new_password: str
+
+class UpdatePasswordSchema(BaseModel):
   old_password: str
   new_password: str
