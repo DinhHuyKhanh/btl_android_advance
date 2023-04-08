@@ -13,6 +13,7 @@ CREATE TABLE IF NOT EXISTS `user_data` (
   `activate` BOOLEAN,
   `Coin` DECIMAL(10,2),
   `BirthDay` DATE,
+  `ResetPasswordToken` VARCHAR(255),
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB;
 
