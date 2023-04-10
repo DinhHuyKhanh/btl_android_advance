@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `user_data` (
   `Address` VARCHAR(255),
   `activate` BOOLEAN default 1,
   `Coin` DECIMAL(10,2) DEFAULT 0,
-  `BirthDay` DATE DEFAULT NOW(),
+  `BirthDay` DATE,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB;
 
