@@ -21,7 +21,6 @@ class EmailSchema(BaseModel):
 
 class ResetPasswordSchema(BaseModel):
   reset_password_token: str
-  old_password: str
   new_password: str
 
 class UpdatePasswordSchema(BaseModel):
