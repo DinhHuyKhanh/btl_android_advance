@@ -7,9 +7,13 @@ class MailService():
         reset_password_token = self._get_random_string(Code.LENGTH_CODE)
         filter = {"email": email, "activate": True}
         update = {"resetpasswordtoken": reset_password_token}
-        model.get_and_update(filter, update)
+        
+        _, code, _ = model.get_and_update(filter, update)
 
-        return reset_password_token
+        if code == 0:
+            return reset_password_token, 0, "Create code (otp) success"
+        
+        return None, -1, "Create code (otp) fail"
     
     def _get_random_string(self, length):
         letters = string.ascii_lowercase
