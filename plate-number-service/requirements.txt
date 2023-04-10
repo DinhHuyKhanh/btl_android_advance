@@ -4,5 +4,6 @@ sqlalchemy
 mysql-connector-python
 python-dotenv
 opencv-python
+bcrypt
 paddleocr>=2.0.1
 paddlepaddle==2.4.2
