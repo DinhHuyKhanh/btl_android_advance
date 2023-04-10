@@ -10,40 +10,40 @@ class UserService():
     
     def delete_by_id(self, user_id, model):
         if user_id is None:
-            return -1
+            return None, -1, "user id is none"
         
-        user = model.get_by_id(user_id)
+        user, _, _ = model.get_by_id(user_id)
 
         if user is None:
-            return -1
+            return None, -1, "Get user fail"
         
         return model.delete(user_id)
     
     def get_by_id(self, user_id, model):
         if user_id is None:
-            return None
+            return None, -1, "user id is none"
         
         return model.get_by_id(user_id)
     
     def update(self, user_id, data, model):
         if user_id is None:
-            return -1
+            return None, -1, "user id is none"
         
         return model.update(user_id, data)
     
     def reset_password(self, data, model):
-        filter = {"resetpasswordtoken": data["reset_password_token"], "password": data["old_password"]}
+        filter = {"resetpasswordtoken": data["reset_password_token"]}
         update = {"password": data["new_password"]}
         
-        user = model.get_by(filter)
+        user, _, _ = model.get_by(filter)
         if user is None:
-            return -1
+            return None, -1, "User not exist"
         
-        count = model.update(user.id, update)
+        count, _, _ = model.update(user.id, update)
         if count > 0:
             return self._reset_token_none(user.id, model)
 
-        return -1
+        return None, -1, "Reset password fail"
     
     def _reset_token_none(self, user_id, model):
         set_reset_password_token_none = {"resetpasswordtoken": None}
