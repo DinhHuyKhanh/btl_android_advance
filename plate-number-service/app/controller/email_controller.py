@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 from fastapi_mail import FastMail, MessageSchema, MessageType
+from util.helper import wrap_responses
 from schemas import EmailSchema
 from conf import EMAIL
 from app.settings import mail_service
@@ -10,9 +11,8 @@ router = APIRouter(
     tags=['email']
 )
 
-async def _send_email_async(email_to: str):
-    code = mail_service.create_code(email_to, user_model)
-    html = f"""<p>This is code to validate: {code} </p> """
+async def _send_email_async(email_to: str, otp):
+    html = f"""<p>This is code to validate: {otp} </p> """
 
     message = MessageSchema(
         subject="Verification code forgot password",
@@ -23,10 +23,12 @@ async def _send_email_async(email_to: str):
     fm = FastMail(EMAIL)
     await fm.send_message(message)
 
-@router.post('/')
+@router.post('')
+@wrap_responses
 async def simple_send(emailInfo: EmailSchema):
     try:
-        await _send_email_async(emailInfo.email)
-        return {"message": "email has been sent"}
-    except Exception as ex:
-        return {"message": str(ex)}
+        otp, _, _ = mail_service.create_code(emailInfo.email, user_model)
+        await _send_email_async(emailInfo.email, otp)
+        return otp, 0, "otp sent to mail"
+    except Exception:
+        return None, -1, "otp not sent to mail"
