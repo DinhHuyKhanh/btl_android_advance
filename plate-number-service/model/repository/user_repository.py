@@ -1,17 +1,16 @@
 import logging
-from model.database import SessionLocal
-from model.models import DbUser
+from model.repository.base_repository import BaseRepository
+from model.models import UserData
 
 logger = logging.getLogger()
 
-class UserRepository():
-
+class UserRepository(BaseRepository):
     def __init__(self) -> None:
-        self.db = SessionLocal()
+        super().__init__()
 
     def get_all_users(self, filter=None):
         try:
-            users = self.db.query(DbUser).filter_by(**filter).all()
+            users = self.db.query(UserData).filter_by(**filter).all()
             if users is None:
                 return None, -1, "Get users fail"
             
@@ -38,9 +37,9 @@ class UserRepository():
             if not filter:
                 filter = {}
 
-            filter["id"] = id
+            filter["Id"] = id
             
-            user = self.db.query(DbUser).filter_by(**filter).first()
+            user = self.db.query(UserData).filter_by(**filter).first()
 
             if user is None:
                 return None, -1, "Get user fail"
@@ -52,7 +51,7 @@ class UserRepository():
         
     def get_by(self, filter):
         try:
-            user = self.db.query(DbUser).filter_by(**filter).first()
+            user = self.db.query(UserData).filter_by(**filter).first()
 
             if user is None:
                 return None, -1, "Get user fail"
@@ -64,7 +63,7 @@ class UserRepository():
         
     def get_by_and_update(self, filter, update):
         try:
-            data = self.db.query(DbUser).filter_by(**filter)
+            data = self.db.query(UserData).filter_by(**filter)
             count = data.update(update)
             self.db.commit()
 
@@ -77,7 +76,7 @@ class UserRepository():
     
     def update(self, id, filter):
         try:
-            data = self.db.query(DbUser).filter_by(id=id)
+            data = self.db.query(UserData).filter_by(Id=id)
             count = data.update(filter)
             self.db.commit()
 

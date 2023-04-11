@@ -1,18 +1,16 @@
-from sqlalchemy.sql.sqltypes import Integer, String
+from sqlalchemy import Boolean, Column, DECIMAL, Date, Integer, String
 from model.database import Base
-from sqlalchemy import DECIMAL, Boolean, Column
 
-
-class DbUser(Base):
+class UserData(Base):
   __tablename__ = 'user_data'
-  id = Column(Integer, primary_key=True, index=True)
-  fullName = Column(String)
-  phoneNumber = Column(String)
-  email = Column(String)
-  password = Column(String)
-  personalNumber = Column(String)
-  address = Column(String)
-  activate = Column(Boolean)
-  coin = Column(DECIMAL)
-  birthday =  Column(String)
-  resetpasswordtoken = Column(String)
+  Id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+  FullName = Column(String(255), nullable=False)
+  PhoneNumber = Column(String(255), nullable=False)
+  Email = Column(String(255), nullable=False)
+  Password = Column(String(255), nullable=False)
+  PersonalNumber = Column(String(255), unique=True, nullable=True)
+  Address = Column(String(255), nullable=True)
+  activate = Column(Boolean, default=True)
+  Coin = Column(DECIMAL(10,2), default=0)
+  BirthDay = Column(Date, nullable=True)
+  ResetPasswordToken = Column(String, nullable=True)

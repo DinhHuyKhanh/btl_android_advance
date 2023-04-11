@@ -1,10 +1,10 @@
 from fastapi import APIRouter
 from fastapi_mail import FastMail, MessageSchema, MessageType
+from app.controller.schema import EmailSchema
 from util.helper import wrap_responses
-from schemas import EmailSchema
 from conf import EMAIL
 from app.settings import mail_service
-from app.settings import user_model
+from app.settings import UserModelImp
 
 router = APIRouter(
     prefix='/email',
@@ -27,7 +27,7 @@ async def _send_email_async(email_to: str, otp):
 @wrap_responses
 async def simple_send(emailInfo: EmailSchema):
     try:
-        otp, _, _ = mail_service.create_code(emailInfo.email, user_model)
+        otp, _, _ = mail_service.create_code(emailInfo.email, UserModelImp())
         await _send_email_async(emailInfo.email, otp)
         return otp, 0, "otp sent to mail"
     except Exception:

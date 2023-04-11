@@ -1,4 +1,4 @@
-from model.models import DbUser
+from model.models import UserData
 from model.repository.user_repository import UserRepository
 
 
@@ -12,7 +12,7 @@ class UserImplement():
         return UserRepository().get_all_users(filter)
     
     def create(self, data):
-        return UserRepository().create(DbUser(**data))
+        return UserRepository().create(UserData(**data))
     
     def get_by_id(self, id):
         filter = {"activate": True}
@@ -20,7 +20,12 @@ class UserImplement():
     
     def delete(self, id):
         filter = {"activate": False}
-        return UserRepository().update(id, filter)
+        count, _, _ = UserRepository().update(id, filter)
+
+        if count > 0:
+            return count, 0, 'Delete user success'
+        
+        return count, -1, 'Delete user fail'
     
     def update(self, id, filter):
         return UserRepository().update(id, filter)
@@ -30,4 +35,3 @@ class UserImplement():
     
     def get_by(self, filter):
         return UserRepository().get_by(filter)
-    
