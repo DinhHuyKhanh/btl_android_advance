@@ -1,4 +1,4 @@
-from sqlalchemy import Boolean, Column, DECIMAL, Date, Integer, String
+from sqlalchemy import Boolean, Column, DECIMAL, Date, DateTime, Integer, String, Text
 from model.database import Base
 
 class UserData(Base):
@@ -14,3 +14,13 @@ class UserData(Base):
   Coin = Column(DECIMAL(10,2), default=0)
   BirthDay = Column(Date, nullable=True)
   ResetPasswordToken = Column(String, nullable=True)
+
+class GateHistory(Base):
+  __tablename__ = 'gate_history'
+  Id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+  UserId = Column(Integer, nullable=False)
+  NumberPlate = Column(String(255), nullable=False)
+  CheckInDate = Column(DateTime, nullable=True)
+  CheckOutDate = Column(DateTime, nullable=True)
+  ImagePathCheckIn = Column(Text, nullable=True)
+  ImagePathCheckOut = Column(Text, nullable=True)
