@@ -15,27 +15,29 @@ class DetectPlateService():
         self.model.setInputParams(scale=1 / 255, size=(416, 416), swapRB=True)
         pass
 
-    def save_local(self, image: UploadFile, static_path: str):
-        os.makedirs(static_path, exist_ok=True)
-        image_url = f'{static_path}/{time.time()}_{image.filename}'
+    def save_local(self, image: UploadFile):
+        os.makedirs(STATIC_MEDIA, exist_ok=True)
+        file_name = f'{time.time()}_{image.filename}'
+        image_url = f'{STATIC_MEDIA}/{file_name}'
         with open(image_url, 'wb') as buffer:
             shutil.copyfileobj(image.file, buffer)
-        return image_url
+        return file_name
 
-    def save_image_by_path(self, image_url, image: UploadFile):
+    def save_image_by_name(self, file_name, image: UploadFile):
+        image_url = f'{STATIC_MEDIA}/{file_name}'
         with open(image_url, 'wb') as buffer:
             shutil.copyfileobj(image.file, buffer)
-        return image_url
+        return file_name
 
     def detect_plate(self, image: UploadFile):
-        static_path = f'{STATIC_MEDIA}/save_images/'
-        image_url = self.save_local(image, static_path)
-        ans, code, msg = self.handle_detect(image_url)
+        file_name = self.save_local(image)
+        ans, code, msg = self.handle_detect(file_name)
 
         return ans, code, "success"
 
-    def handle_detect(self, image_url):
+    def handle_detect(self, file_name):
         try:
+            image_url = f'{STATIC_MEDIA}/{file_name}'
             image_cv2 = cv2.imread(image_url)
             classIds, scores, boxes = self.model.detect(image_cv2, confThreshold=0.6, nmsThreshold=0.4)
             ans=None
@@ -51,13 +53,12 @@ class DetectPlateService():
 
     def register(self, user_id, image: UploadFile, model):
         try: 
-            static_path = f'{STATIC_MEDIA}/image_plate_register'
-            image_url = self.save_local(image, static_path)
-            plate_txt, code, msg = self.handle_detect(image_url)
+            file_name = self.save_local(image)
+            plate_txt, code, msg = self.handle_detect(file_name)
             new_plate = {
                 'UserId': user_id,
                 'NumberPlate': plate_txt,
-                'ImagePath': image_url
+                'ImagePath': file_name
             }
 
             return model.register(new_plate)
@@ -70,8 +71,8 @@ class DetectPlateService():
             plate, code, msg = model.get_plate_by_id(id)
             if code == -1:
                 return plate, code, msg
-            image_url = self.save_image_by_path(plate['ImagePath'], image)
-            plate_txt, code, msg = self.handle_detect(image_url)
+            file_name = self.save_image_by_name(plate['ImagePath'], image)
+            plate_txt, code, msg = self.handle_detect(file_name)
             if code == -1:
                 return None, code, msg
             plate['NumberPlate'] = plate_txt
