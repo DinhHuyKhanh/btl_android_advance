@@ -17,11 +17,11 @@ class UserRepository(BaseRepository):
         self.db.add(new_user)
         self.db.commit()
         self.db.refresh(new_user)
-        return convert_model_to_json(new_user, UserData), 1, "success"
+        return convert_model_to_json(new_user, UserData), 0, "success"
     
     def get_user_by_email(self, email: str):
         stored_user = self.db.query(UserData).filter(UserData.Email == email).first()
         if stored_user:
-            return convert_model_to_json(stored_user, UserData), 1, "success"
+            return convert_model_to_json(stored_user, UserData), 0, "success"
         return None, -1, 'email not exists'
 
