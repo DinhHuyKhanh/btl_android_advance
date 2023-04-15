@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from decimal import Decimal
 from datetime import date
 from typing import Optional
@@ -34,3 +34,8 @@ class UpdatePasswordSchema(BaseModel):
   old_password: str
   new_password: str
 
+class GateHistorySchema(BaseModel):
+  UserId: int
+  NumberPlate: str
+  CheckInDate: Optional[datetime] = datetime.now()
+  CheckOutDate: Optional[datetime] = datetime.now()
