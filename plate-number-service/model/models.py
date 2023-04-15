@@ -24,3 +24,14 @@ class GateHistory(Base):
   CheckOutDate = Column(DateTime, nullable=True)
   ImagePathCheckIn = Column(Text, nullable=True)
   ImagePathCheckOut = Column(Text, nullable=True)
+
+
+class NumberPlate(Base):
+  __tablename__ = 'number_plate'
+
+  Id = Column(Integer(), primary_key=True, autoincrement=True, nullable=False)
+  UserId = Column(Integer, nullable=False)
+  NumberPlate = Column(String(255), nullable=False)
+  ImagePath = Column(Text)
+
+  

@@ -39,3 +39,6 @@ class GateHistorySchema(BaseModel):
   NumberPlate: str
   CheckInDate: Optional[datetime] = datetime.now()
   CheckOutDate: Optional[datetime] = datetime.now()
+
+class ImageRequest(BaseModel):
+  ImagePath: str
