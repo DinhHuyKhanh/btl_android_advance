@@ -5,7 +5,8 @@ from model.repository.user_repository import UserRepository
 class UserImplement():
     
     def __init__(self) -> None:
-        pass
+        self.user_repository = UserRepository()
+
     
     def get_all_user(self):
         filter = {"activate": True}
