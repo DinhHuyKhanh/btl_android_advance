@@ -14,14 +14,14 @@ class PlateRepository(BaseRepository):
         self.db.add(new_plate)
         self.db.commit()
         self.db.refresh(new_plate)
-        return convert_model_to_json(new_plate, NumberPlate), 0, "success"
+        return convert_model_to_json(new_plate, NumberPlate)
 
     def get_by_id(self, id):
         number_plate = self.db.query(NumberPlate).filter_by(Id=id).first()
         self.db.close()
         if not number_plate:
-            return None, -1, 'Number Plate not found'
-        return convert_model_to_json(number_plate, NumberPlate), 0, "success"
+            return None
+        return convert_model_to_json(number_plate, NumberPlate)
 
     def update(self,id ,plate):
         plate_stored = self.db.query(NumberPlate).filter_by(Id=id).first()
@@ -29,4 +29,9 @@ class PlateRepository(BaseRepository):
         self.db.commit()
         self.db.refresh(plate_stored)
         self.db.close()
-        return convert_model_to_json(plate_stored, NumberPlate), 0, "success"
+        return convert_model_to_json(plate_stored, NumberPlate)
+
+    def get_by_number_plate(self, number_plate):
+        number_plate = self.db.query(NumberPlate).filter_by(NumberPlate=number_plate).first()
+        self.db.close()
+        return convert_model_to_json(number_plate, NumberPlate)

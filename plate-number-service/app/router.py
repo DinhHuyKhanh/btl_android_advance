@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from app.controller.user_controller import router as user_router
-from app.controller.detect_plate_controller import router as plate_router
+from app.controller.plate_controller import router as plate_router
 from app.controller.email_controller import router as email_router
 from app.controller.qr_code_controller import router as qrcode_router
 from app.controller.gate_history_controller import router as gate_history_router

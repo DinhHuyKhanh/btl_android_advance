@@ -37,10 +37,28 @@ class PlateImplement(PlateModel):
 
     def register(self, plate):
         plate, code, msg = self.build_item(plate)
-        return self.plate_repository.createPlate(plate)
+        if code == -1: 
+            return None, code, msg 
+        new_plate = self.plate_repository.createPlate(plate)
+        if new_plate is None:
+            return None, -1, 'create plate fail'
+        return new_plate, 0, 'success'
 
     def get_plate_by_id(self, id):
-        return self.plate_repository.get_by_id(id)
+        item = self.plate_repository.get_by_id(id)
+        if item is None: 
+            return None, -1, 'item not found'
+        item, 0, 'success'
     
     def update(self,id, plate):
-        return self.plate_repository.update(id, plate)
+        new_item = self.plate_repository.update(id, plate)
+        if new_item is None: 
+            return None, -1, 'update fail'
+        return new_item, 0, 'success'
+    
+    def get_by_number_plate(self, plate_number):
+        stored_data = self.plate_repository.get_by_number_plate(plate_number)
+        if stored_data is None: 
+            return None, -1, 'fail'
+        return stored_data, 0, 'success'
+    

@@ -33,3 +33,9 @@ async def update_plate(id: int, image: UploadFile = File(...)):
 async def read_img(image_path: str = Path(..., description="Full path of the image")):
     image_full_path = f'{STATIC_MEDIA}/{image_path}'
     return FileResponse(image_full_path)
+
+
+@router.get('/find_by_id/{id}')
+@wrap_responses
+async def get_plate_by_id(id: int):
+    return PlateModel().get_plate_by_id(id)

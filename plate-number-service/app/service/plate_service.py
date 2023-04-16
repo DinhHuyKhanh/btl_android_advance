@@ -2,11 +2,12 @@ import os
 import shutil
 import cv2
 from paddleocr import PaddleOCR
+from app.service.gate_history_service import GateHistoryService
 from conf import SAVE_MODEL, STATIC_MEDIA
 from starlette.datastructures import UploadFile
 import time
 
-class DetectPlateService():
+class PlateService():
 
     def __init__(self) -> None:
         self.net = cv2.dnn.readNetFromDarknet(f'{SAVE_MODEL}/yolov4-tiny-custom.cfg', f'{SAVE_MODEL}/yolov4-tiny-custom_best.weights')
@@ -30,10 +31,14 @@ class DetectPlateService():
         return file_name
 
     def detect_plate(self, image: UploadFile):
-        file_name = self.save_local(image)
-        ans, code, msg = self.handle_detect(file_name)
-
-        return ans, code, "success"
+        try:
+            file_name = self.save_local(image)
+            number_plate, code, msg = self.handle_detect(file_name)
+            gate_history_service = GateHistoryService()
+            data, code, msg = gate_history_service.create_or_update(number_plate, file_name)
+            return None, code, msg
+        except Exception as e:
+            return None, -1 , f'exception as {str(e)}'
 
     def handle_detect(self, file_name):
         try:
