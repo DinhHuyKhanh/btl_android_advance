@@ -13,11 +13,11 @@ class UserImplement(UserModel):
         return self.user_repository.get_all_users(limit, offset, sort), 0, 'success'
     
     def create(self, data):
-        return UserRepository().create(UserData(**data))
+        return UserRepository().create(UserData(**data)), 0, 'success'
     
     def get_by_id(self, id):
         filter = {"activate": True}
-        return UserRepository().get(id, filter)
+        return UserRepository().get(id, filter), 0, 'success'
     
     def delete(self, id):
         filter = {"activate": False}
@@ -29,13 +29,13 @@ class UserImplement(UserModel):
         return count, -1, 'Delete user fail'
     
     def update(self, id, filter):
-        return UserRepository().update(id, filter)
+        return UserRepository().update(id, filter), 0, 'success'
     
     def get_and_update(self, filter, update):
-        return UserRepository().get_by_and_update(filter, update)
+        return UserRepository().get_by_and_update(filter, update), 0, 'success'
     
     def get_by(self, filter):
-        return UserRepository().get_by(filter)
+        return UserRepository().get_by(filter), 0, 'success'
 
     def get_user_by_email(self, email: str):
         return self.user_repository.get_user_by_email(email), 0, 'success'
