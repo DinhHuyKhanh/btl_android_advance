@@ -4,8 +4,8 @@ class UserDataService():
 
     def get_all_user(self, limit, offset, sort, model):
         try:
-            items, _, _ = model.get_all_user(limit, offset, sort)
-            total, _, _ = model.count_user()
+            items = model.get_all_user(limit, offset, sort)
+            total = model.count_user()
             page= offset
             return total, page, limit, items, 0, 'success'
         except Exception as e:
@@ -16,12 +16,17 @@ class UserDataService():
             if user_id is None:
                 return None, -1, "user id is none"
             
-            user, _, _ = model.get_by_id(user_id)
+            user = model.get_by_id(user_id)
 
             if user is None:
                 return None, -1, "Get user fail"
             
-            return model.delete(user_id)
+            count = model.delete(user_id)
+
+            if count > 0:
+                return count, 0, 'Delete user success'
+        
+            return count, -1, 'Delete user fail'
         except Exception as e:
             return None,  -1, f'Exception as {str(e)}' 
     
@@ -30,7 +35,12 @@ class UserDataService():
             if user_id is None:
                 return None, -1, "user id is none"
             
-            return model.get_by_id(user_id)
+            user = model.get_by_id(user_id)
+
+            if user is None:
+                return None, -1, "Get user fail"
+            
+            return user, 0, "Get user success"
         except Exception as e:
             return None,  -1, f'Exception as {str(e)}' 
     
@@ -39,7 +49,11 @@ class UserDataService():
             if user_id is None:
                 return None, -1, "user id is none"
             
-            return model.update(user_id, data)
+            count = model.update(user_id, data)
+
+            if count > 0:
+                return count, 0, "Update success"
+            return None, -1, "Update fail"
         except Exception as e:
             return None,  -1, f'Exception as {str(e)}' 
     
@@ -49,11 +63,11 @@ class UserDataService():
             data['new_password'] = self.__encode_password(data['new_password'])
             update = {"Password": data["new_password"]}
             
-            user, _, _ = model.get_by(filter)
+            user = model.get_by(filter)
             if user is None:
                 return None, -1, "User not exist"
             
-            count, _, _ = model.update(user.Id, update)
+            count = model.update(user.Id, update)
             if count > 0:
                 return self._reset_token_none(user.Id, model)
 
@@ -63,11 +77,15 @@ class UserDataService():
     
     def _reset_token_none(self, user_id, model):
         set_reset_password_token_none = {"ResetPasswordToken": None}
-        return model.update(user_id, set_reset_password_token_none)
+        count = model.update(user_id, set_reset_password_token_none)
+
+        if count > 0:
+            return count, 0, "Update success"
+        return None, -1, "Update fail"
     
     def update_password(self, user_id, data, model):
         try:
-            user, _, _ = model.get_by_id(user_id)
+            user = model.get_by_id(user_id)
 
             if user is None:
                 return None, -1, 'User not exist'
@@ -78,22 +96,30 @@ class UserDataService():
             data['new_password'] = self.__encode_password(data['new_password'])
             update = {"Password": data["new_password"]}
             
-            return model.update(user_id, update)
+            count = model.update(user_id, update)
+            if count > 0:
+                return count, 0, "Update success"
+            return None, -1, "Update fail"
         except Exception as e:
             return None,  -1, f'Exception as {str(e)}' 
 
     def create(self, user_dict: dict, model):
         try:
             user_dict['Password'] = self.__encode_password(user_dict['Password'])
-            return model.create(user_dict)
+            user = model.create(user_dict)
+
+            if user is None:
+                return None, -1, "Create user fail"
+            
+            return user, 0, "Create user success"
         except Exception as e:
             return None,  -1, f'Exception as {str(e)}' 
 
     def login(self, user_dict, model):
         try:
-            stored_user, code, _ = model.get_by({'Email': user_dict['email'], 'activate': True})
+            stored_user = model.get_by({'Email': user_dict['email'], 'activate': True})
 
-            if code == -1:
+            if stored_user is None:
                 return None, -1, 'username wrong'
             
             if self.__compare_password(user_dict['password'], stored_user.Password) == -1:

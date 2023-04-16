@@ -5,7 +5,7 @@ import segno
 
 class QrCodeService():
     def create_qrcode(self, id, model):
-        user, _, _ = model.get_by_id(id)
+        user = model.get_by_id(id)
 
         if user:
             return self.__process_create_qrcode(user.Id)

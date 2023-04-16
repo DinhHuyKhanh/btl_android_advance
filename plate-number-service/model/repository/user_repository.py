@@ -57,11 +57,10 @@ class UserRepository(BaseRepository):
             return [dict(row) for row in result]
 
     def create(self, user_dict):
-        new_user = UserData(**user_dict)
-        self.db.add(new_user)
+        self.db.add(user_dict)
         self.db.commit()
-        self.db.refresh(new_user)
-        return convert_model_to_json(new_user, UserData)
+        self.db.refresh(user_dict)
+        return convert_model_to_json(user_dict, UserData)
     
     def get_user_by_email(self, email: str):
         stored_user = self.db.query(UserData).filter(UserData.Email == email).first()
