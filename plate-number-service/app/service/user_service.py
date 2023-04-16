@@ -2,8 +2,14 @@ import bcrypt
 
 class UserDataService():
 
-    def get_all_user(self, model):
-        return model.get_all_user()
+    def get_all_user(self, limit, offset, sort, model):
+        try:
+            items, code, msg = model.get_all_user(limit, offset, sort)
+            total, code, msg = model.count_user()
+            page= offset
+            return total, page, limit, items, 0, 'success'
+        except Exception as e:
+            return None, None, None,None,  -1, f'Exception as {str(e)}'
     
     def register(self, user_dict: dict, model):
         user_dict['Password'] = self.__encode_password(user_dict['Password'])
@@ -27,4 +33,3 @@ class UserDataService():
             return 0
         else:
             return -1
-        

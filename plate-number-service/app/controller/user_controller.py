@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from util.helper import wrap_responses
+from util.helper import wrap_list_responses, wrap_responses
 from app.controller.schema import UserLogin, UserRegister
 from app.settings import UserModelImp, UserModelImp, UserService
 
@@ -9,8 +9,9 @@ router = APIRouter(
 )
 
 @router.get('')
-def get_all_user():
-    return UserService().get_all_user(UserModelImp())
+@wrap_list_responses
+async def get_all_user(limit: int = 10, offset: int = 0, sort: str = 'asc'):
+    return UserService().get_all_user(limit, offset, sort, UserModelImp())
 
 @router.post('')
 @wrap_responses
