@@ -4,7 +4,7 @@ from util.constants import Code
 
 class MailService():
     def create_code(self, email, model):
-        reset_password_token = self._get_random_string(Code.LENGTH_CODE)
+        reset_password_token = self._get_random_string(Code.LENGTH_CODE.value)
         filter = {"Email": email, "activate": True}
         update = {"ResetPasswordToken": reset_password_token}
         

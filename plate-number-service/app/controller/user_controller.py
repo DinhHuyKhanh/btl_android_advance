@@ -1,7 +1,7 @@
 from fastapi import APIRouter
-from util.helper import wrap_responses
 from app.controller.schema import ResetPasswordSchema, UserLogin, UpdatePasswordSchema, UserSchema, UpdateUserSchema
-from app.settings import UserModelImp, UserService
+from util.helper import wrap_list_responses, wrap_responses
+from app.settings import UserModelImp, UserModelImp, UserService
 
 router = APIRouter(
     prefix='/users',
@@ -14,10 +14,10 @@ async def reset_password(resetPassword: ResetPasswordSchema):
     resetPassword = resetPassword.dict()
     return UserService().reset_password(resetPassword, UserModelImp())
 
-@router.get('/')
-@wrap_responses
-async def get_all_user():
-    return UserService().get_all_user(UserModelImp())
+@router.get('')
+@wrap_list_responses
+async def get_all_user(limit: int = 10, offset: int = 0, sort: str = 'asc'):
+    return UserService().get_all_user(limit, offset, sort, UserModelImp())
 
 @router.get('/{id}')
 @wrap_responses

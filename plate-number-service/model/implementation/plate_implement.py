@@ -44,4 +44,3 @@ class PlateImplement(PlateModel):
     
     def update(self,id, plate):
         return self.plate_repository.update(id, plate)
-    

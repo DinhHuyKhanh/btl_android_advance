@@ -31,3 +31,35 @@ def wrap_responses(handler):
                 }
     return middleware
 
+
+def wrap_list_responses(handler):
+    @wraps(handler)
+    async def middleware(*args, **kwargs) :
+        # Call the controller function
+        try:
+            response: Response = await handler(*args, **kwargs)
+            if isinstance(response, tuple):
+                total, page, page_size, data, code, msg = response
+                if data is not None:
+                    dict_response: Dict[str, Any] = {
+                        "total": total,
+                        "page": page,
+                        "page_size": page_size,
+                        "items": data,
+                    }, code, msg
+                else:
+                    return None, code, msg
+            else: 
+                dict_response: Dict[str, Any] = {
+                    "code": -1,
+                    "message": msg
+                }
+
+            # Return the dictionary response
+            return dict_response
+        except Exception as ex:
+            return {
+                    "code": -1,
+                    "message": str(ex)
+                }
+    return middleware
