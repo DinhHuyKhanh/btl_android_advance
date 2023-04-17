@@ -63,3 +63,36 @@ def wrap_list_responses(handler):
                     "message": str(ex)
                 }
     return middleware
+
+def wrap_list_response_no_paginator(handler):
+    @wraps(handler)
+    async def middleware(*args, **kwargs) :
+        try:
+            response: Response = await handler(*args, **kwargs)
+            if isinstance(response, tuple):
+                data, total, code, msg = response
+                if data is not None:
+                    dict_response: Dict[str, Any] = {"data":{
+                        "total": total,
+                        "items": data,
+                    }, 
+                    "code": code, 
+                    "message": msg}
+                else:
+                    dict_response: Dict[str, Any] = {
+                        None, code, msg
+                    }
+            else:
+                dict_response: Dict[str, Any] = {
+                        "code": -1,
+                        "message": msg
+                    }
+
+            # Return the dictionary response
+            return dict_response
+        except Exception as ex:
+            return {
+                    "code": -1,
+                    "message": str(ex)
+                }
+    return middleware
