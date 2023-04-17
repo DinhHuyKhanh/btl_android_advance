@@ -80,7 +80,22 @@ class DetectPlateService():
         except Exception as e:
             return None, -1, f'exception as {str(e)}'
 
+    def get_all(self, user_id, user_model, plate_model):
+        try:
+            user = user_model.get_by_id(user_id)
 
+            if user is None:
+                return None, None, -1, "User not exist"
+            
+            plates = plate_model.get_all(user_id)
+
+            if plates is None:
+                return None, None, -1, "Get all plates fail"
+            
+            return plates, len(plates), 0, 'Get all plates success'
+        except Exception as e:
+            return None, None, -1, f'exception as {str(e)}'
+        
 
 
 
