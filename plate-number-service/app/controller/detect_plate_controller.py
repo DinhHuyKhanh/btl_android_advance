@@ -1,9 +1,7 @@
 from fastapi import APIRouter, File, UploadFile
-from pydantic import FilePath
-from app.controller.schema import ImageRequest
-from app.settings import PlateModel, PlateService
+from app.settings import PlateModel, PlateService, UserModelImp
 from conf import STATIC_MEDIA
-from util.helper import wrap_responses
+from util.helper import wrap_responses, wrap_list_response_no_paginator
 from fastapi.responses import FileResponse
 from fastapi import Path
 
@@ -33,3 +31,8 @@ async def update_plate(id: int, image: UploadFile = File(...)):
 async def read_img(image_path: str = Path(..., description="Full path of the image")):
     image_full_path = f'{STATIC_MEDIA}/{image_path}'
     return FileResponse(image_full_path)
+
+@router.get('')
+@wrap_list_response_no_paginator
+async def get_all_plate(user_id: int):
+    return PlateService().get_all(user_id, UserModelImp(), PlateModel())
