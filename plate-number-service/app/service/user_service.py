@@ -21,12 +21,7 @@ class UserDataService():
             if user is None:
                 return None, -1, "Get user fail"
             
-            count, _, _ = model.delete(user_id)
-
-            if count > 0:
-                return count, 0, 'Delete user success'
-        
-            return count, -1, 'Delete user fail'
+            return model.delete(user_id)
         except Exception as e:
             return None,  -1, f'Exception as {str(e)}' 
     
@@ -35,12 +30,7 @@ class UserDataService():
             if user_id is None:
                 return None, -1, "user id is none"
             
-            user, _, _ = model.get_by_id(user_id)
-
-            if user is None:
-                return None, -1, "Get user fail"
-            
-            return user, 0, "Get user success"
+            return model.get_by_id(user_id)
         except Exception as e:
             return None,  -1, f'Exception as {str(e)}' 
     
@@ -49,11 +39,7 @@ class UserDataService():
             if user_id is None:
                 return None, -1, "user id is none"
             
-            count, _, _ = model.update(user_id, data)
-
-            if count > 0:
-                return count, 0, "Update success"
-            return None, -1, "Update fail"
+            return model.update(user_id, data)
         except Exception as e:
             return None,  -1, f'Exception as {str(e)}' 
     
@@ -69,19 +55,15 @@ class UserDataService():
             
             count, _, _ = model.update(user.Id, update)
             if count > 0:
-                return self._reset_token_none(user.Id, model)
+                return self.__reset_token_none(user.Id, model)
 
             return None, -1, "Reset password fail"
         except Exception as e:
             return None,  -1, f'Exception as {str(e)}' 
     
-    def _reset_token_none(self, user_id, model):
+    def __reset_token_none(self, user_id, model):
         set_reset_password_token_none = {"ResetPasswordToken": None}
-        count, _, _ = model.update(user_id, set_reset_password_token_none)
-
-        if count > 0:
-            return count, 0, "Update success"
-        return None, -1, "Update fail"
+        return model.update(user_id, set_reset_password_token_none)
     
     def update_password(self, user_id, data, model):
         try:
@@ -96,22 +78,14 @@ class UserDataService():
             data['new_password'] = self.__encode_password(data['new_password'])
             update = {"Password": data["new_password"]}
             
-            count, _, _ = model.update(user_id, update)
-            if count > 0:
-                return count, 0, "Update success"
-            return None, -1, "Update fail"
+            return model.update(user_id, update)
         except Exception as e:
             return None,  -1, f'Exception as {str(e)}' 
 
     def create(self, user_dict: dict, model):
         try:
             user_dict['Password'] = self.__encode_password(user_dict['Password'])
-            user, _, _ = model.create(user_dict)
-
-            if user is None:
-                return None, -1, "Create user fail"
-            
-            return user, 0, "Create user success"
+            return model.create(user_dict)
         except Exception as e:
             return None,  -1, f'Exception as {str(e)}' 
 
