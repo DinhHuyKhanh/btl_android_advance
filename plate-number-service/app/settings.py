@@ -1,5 +1,5 @@
 
-from app.service.detect_plate_service import DetectPlateService
+from app.service.plate_service import PlateService
 from app.service.user_service import UserDataService
 from model.implementation.plate_implement import PlateImplement
 from model.implementation.user_implement import UserImplement
@@ -10,7 +10,7 @@ from app.service.gate_history_service import GateHistoryService
 
 #SERVICE
 UserService = UserDataService
-PlateService = DetectPlateService
+PlateService = PlateService
 mail_service = MailService()
 qr_code_service = QrCodeService
 GateService = GateHistoryService

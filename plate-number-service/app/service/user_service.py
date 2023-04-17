@@ -16,12 +16,12 @@ class UserDataService():
             if user_id is None:
                 return None, -1, "user id is none"
             
-            user = model.get_by_id(user_id)
+            user, _, _ = model.get_by_id(user_id)
 
             if user is None:
                 return None, -1, "Get user fail"
             
-            count = model.delete(user_id)
+            count, _, _ = model.delete(user_id)
 
             if count > 0:
                 return count, 0, 'Delete user success'
@@ -35,7 +35,7 @@ class UserDataService():
             if user_id is None:
                 return None, -1, "user id is none"
             
-            user = model.get_by_id(user_id)
+            user, _, _ = model.get_by_id(user_id)
 
             if user is None:
                 return None, -1, "Get user fail"
@@ -49,7 +49,7 @@ class UserDataService():
             if user_id is None:
                 return None, -1, "user id is none"
             
-            count = model.update(user_id, data)
+            count, _, _ = model.update(user_id, data)
 
             if count > 0:
                 return count, 0, "Update success"
@@ -63,11 +63,11 @@ class UserDataService():
             data['new_password'] = self.__encode_password(data['new_password'])
             update = {"Password": data["new_password"]}
             
-            user = model.get_by(filter)
+            user, _, _ = model.get_by(filter)
             if user is None:
                 return None, -1, "User not exist"
             
-            count = model.update(user.Id, update)
+            count, _, _ = model.update(user.Id, update)
             if count > 0:
                 return self._reset_token_none(user.Id, model)
 
@@ -77,7 +77,7 @@ class UserDataService():
     
     def _reset_token_none(self, user_id, model):
         set_reset_password_token_none = {"ResetPasswordToken": None}
-        count = model.update(user_id, set_reset_password_token_none)
+        count, _, _ = model.update(user_id, set_reset_password_token_none)
 
         if count > 0:
             return count, 0, "Update success"
@@ -85,7 +85,7 @@ class UserDataService():
     
     def update_password(self, user_id, data, model):
         try:
-            user = model.get_by_id(user_id)
+            user,_, _ = model.get_by_id(user_id)
 
             if user is None:
                 return None, -1, 'User not exist'
@@ -96,7 +96,7 @@ class UserDataService():
             data['new_password'] = self.__encode_password(data['new_password'])
             update = {"Password": data["new_password"]}
             
-            count = model.update(user_id, update)
+            count, _, _ = model.update(user_id, update)
             if count > 0:
                 return count, 0, "Update success"
             return None, -1, "Update fail"
@@ -106,7 +106,7 @@ class UserDataService():
     def create(self, user_dict: dict, model):
         try:
             user_dict['Password'] = self.__encode_password(user_dict['Password'])
-            user = model.create(user_dict)
+            user, _, _ = model.create(user_dict)
 
             if user is None:
                 return None, -1, "Create user fail"
@@ -117,7 +117,7 @@ class UserDataService():
 
     def login(self, user_dict, model):
         try:
-            stored_user = model.get_by({'Email': user_dict['email'], 'activate': True})
+            stored_user, _, _ = model.get_by({'Email': user_dict['email'], 'activate': True})
 
             if stored_user is None:
                 return None, -1, 'username wrong'

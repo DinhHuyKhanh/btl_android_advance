@@ -13,3 +13,7 @@ CREATE TABLE IF NOT EXISTS number_plate(
     `ImagePath` TEXT,
     PRIMARY KEY (`Id`)
 )ENGINE=InnoDB;
+
+
+ALTER TABLE `gate_history`
+MODIFY  COLUMN  `NumberPlate` VARCHAR(255);

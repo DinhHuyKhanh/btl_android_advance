@@ -8,7 +8,7 @@ class MailService():
         filter = {"Email": email, "activate": True}
         update = {"ResetPasswordToken": reset_password_token}
         
-        count = model.get_and_update(filter, update)
+        count, _, _ = model.get_and_update(filter, update)
 
         if count > 0:
             return reset_password_token, 0, "Create code (otp) success"

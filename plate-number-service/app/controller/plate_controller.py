@@ -36,3 +36,8 @@ async def read_img(image_path: str = Path(..., description="Full path of the ima
 @wrap_list_response_no_paginator
 async def get_all_plate(user_id: int):
     return PlateService().get_all(user_id, UserModelImp(), PlateModel())
+
+@router.get('/find_by_id/{id}')
+@wrap_responses
+async def get_plate_by_id(id: int):
+    return PlateModel().get_plate_by_id(id)

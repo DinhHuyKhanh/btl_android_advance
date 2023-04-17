@@ -1,7 +1,9 @@
 import logging
+from util.utils import convert_model_to_json
+from sqlalchemy import text
 from model.repository.base_repository import BaseRepository
 from model.models import GateHistory
-
+from util.constants import TableNames
 logger = logging.getLogger()
 
 class GateHistoryRepository(BaseRepository):
@@ -9,23 +11,38 @@ class GateHistoryRepository(BaseRepository):
         super().__init__()
 
     def get_all_gate_histories(self, filter=None):
-        try:
-            gate_history = self.db.query(GateHistory).filter_by(**filter).all()
-            if gate_history is None:
-                return None, -1, "Get gate histories fail"
-            
-            return gate_history, 0, "Get gate histories success"
-        except Exception as e:
-            logger.exception(e)
-            return None, -1, "Get histories fail"
+        gate_history = self.db.query(GateHistory).filter_by(**filter).all()
+        if gate_history is None:
+            return None
+        return gate_history
+        
     
     def create(self, data):
-        try:
-            self.db.add(data)
-            self.db.commit()
-            self.db.refresh(data)
-            
-            return data, 0, "Create gate history success"
-        except Exception as e:
-            logger.exception(e)
-            return None, -1, "Create gate history fail"
+        self.db.add(data)
+        self.db.commit()
+        self.db.refresh(data)
+
+        return data
+
+    def get_last_plate(self, number_plate):
+        with self.db as session: 
+            result = session.execute(text(
+                f"""
+                SELECT Id, UserId, NumberPlate, CheckInDate,
+                CheckOutDate, ImagePathCheckIn, ImagePathCheckOut
+                FROM {TableNames.GATE_HISTORY.value}
+                ORDER BY CheckInDate DESC
+                LIMIT 1
+                """
+            ).params(
+                number_plate=number_plate,
+            ))
+            return [dict(row) for row in result]
+        
+    def update(self, data):
+        stored_data = self.db.query(GateHistory).filter_by(Id=data['Id'])
+        stored_data.update(data)
+        self.db.commit()
+        self.db.refresh(stored_data)
+        self.db.close()
+        return convert_model_to_json(stored_data, GateHistory)
