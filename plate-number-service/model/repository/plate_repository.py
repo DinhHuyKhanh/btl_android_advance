@@ -30,3 +30,6 @@ class PlateRepository(BaseRepository):
         self.db.refresh(plate_stored)
         self.db.close()
         return convert_model_to_json(plate_stored, NumberPlate), 0, "success"
+    
+    def get_all(self, user_id, limit=None, offset=None):
+        return self.db.query(NumberPlate).filter_by(UserId=user_id).order_by(NumberPlate.Id).limit(limit).offset(offset).all()

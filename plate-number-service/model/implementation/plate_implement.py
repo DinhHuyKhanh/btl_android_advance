@@ -44,3 +44,6 @@ class PlateImplement(PlateModel):
     
     def update(self,id, plate):
         return self.plate_repository.update(id, plate)
+    
+    def get_all(self, user_id, limit=None, offset=None):
+        return self.plate_repository.get_all(user_id, limit, offset)
