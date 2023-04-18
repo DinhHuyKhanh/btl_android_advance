@@ -4,7 +4,7 @@ from util.utils import convert_model_to_json
 from model.repository.base_repository import BaseRepository
 from model.models import UserData
 from sqlalchemy import text
-
+import json
 logger = logging.getLogger()
 
 class UserRepository(BaseRepository):
@@ -54,7 +54,8 @@ class UserRepository(BaseRepository):
                 limit=limit,
                 offset=offset,
             ))
-            return [dict(row) for row in result]
+            rows = [dict(row) for row in result.fetchall()]
+            return rows
 
     def create(self, user_dict):
         self.db.add(user_dict)
