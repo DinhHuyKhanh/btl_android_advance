@@ -52,7 +52,7 @@ class UserRepository(BaseRepository):
                 """
             ).params(
                 limit=limit,
-                offset=offset,
+                offset=offset*limit,
             ))
             rows = [dict(row) for row in result.fetchall()]
             return rows
