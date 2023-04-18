@@ -6,10 +6,10 @@ class UserDataService():
         try:
             items = model.get_all_user(limit, offset, sort)
             total = model.count_user()
-            page= offset
+            page = offset
             return total, page, limit, items, 0, 'success'
         except Exception as e:
-            return None, None, None,None,  -1, f'Exception as {str(e)}'
+            return None, None, None, None,  -1, f'Exception as {str(e)}'
     
     def delete_by_id(self, user_id, model):
         try:

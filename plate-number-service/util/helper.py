@@ -41,12 +41,12 @@ def wrap_list_responses(handler):
             if isinstance(response, tuple):
                 total, page, page_size, data, code, msg = response
                 if data is not None:
-                    dict_response: Dict[str, Any] = {
+                    dict_response: Dict[str, Any] = {'data': {
                         "total": total,
                         "page": page,
                         "page_size": page_size,
                         "items": data,
-                    }, code, msg
+                    }, "message": code, "message":msg}
                 else:
                     return None, code, msg
             else: 
