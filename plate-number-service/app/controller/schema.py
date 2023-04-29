@@ -22,6 +22,7 @@ class UserSchema(BaseModel):
 class UpdateUserSchema(BaseModel):
   PhoneNumber: Optional[str]
   Address: Optional[str]
+  activate: Optional[bool]
 
 class EmailSchema(BaseModel):
   email: EmailStr
