@@ -45,7 +45,6 @@ class UserRepository(BaseRepository):
                 SELECT Id, FullName, PhoneNumber, Email, PersonalNumber, Address, activate,
                 Coin, BirthDay
                 FROM {TableNames.USER_DATA.value}
-                WHERE activate = 1
                 ORDER BY Id {sort}
                 LIMIT :limit 
                 OFFSET :offset

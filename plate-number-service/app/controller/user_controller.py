@@ -16,7 +16,7 @@ async def reset_password(resetPassword: ResetPasswordSchema):
 
 @router.get('')
 @wrap_list_responses
-async def get_all_user(limit: int = 10, offset: int = 0, sort: str = 'asc'):
+async def get_all_user(limit: int = 20, offset: int = 0, sort: str = 'asc'):
     return UserService().get_all_user(limit, offset, sort, UserModelImp())
 
 @router.get('/{id}')
