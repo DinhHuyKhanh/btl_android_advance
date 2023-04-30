@@ -3,7 +3,8 @@ uvicorn
 sqlalchemy==1.4.25
 mysql-connector-python
 python-dotenv
-opencv-python
+opencv-python==4.6.0.66
+opencv-contrib-python==4.6.0.66
 bcrypt
 paddleocr>=2.0.1
 paddlepaddle==2.4.2
