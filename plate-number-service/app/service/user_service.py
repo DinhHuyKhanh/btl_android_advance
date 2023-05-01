@@ -112,3 +112,16 @@ class UserDataService():
             return 0
         else:
             return -1
+
+    def add_money(self, user_id, data, model):
+        try:
+            user, _, _ = model.get_by_id(user_id)
+
+            if user is None:
+                return None, -1, 'User not exist'
+
+            update = {"Coin": data["money"] + user['Coin']}
+
+            return model.update(user_id, update)
+        except Exception as e:
+            return None, -1, f'Exception as {str(e)}'

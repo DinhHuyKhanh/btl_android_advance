@@ -35,6 +35,9 @@ class UpdatePasswordSchema(BaseModel):
   old_password: str
   new_password: str
 
+class AddMoneySchema(BaseModel):
+  money: Decimal
+
 class GateHistorySchema(BaseModel):
   UserId: int
   NumberPlate: str
