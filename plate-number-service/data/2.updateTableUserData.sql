@@ -27,3 +27,6 @@ add column LastCoin Decimal(10,2);
 
 alter table transaction_history
 change description Description VARCHAR(255);
+
+alter table gate_history 
+add column Coin Decimal(10,2);

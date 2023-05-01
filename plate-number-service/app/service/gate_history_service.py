@@ -36,9 +36,11 @@ class GateHistoryService():
                 return self.create(number_plate, file_name)
             gate_history['ImagePathCheckOut'] = file_name
             gate_history['CheckOutDate'] = datetime.datetime.now()
-
             payment_service = PaymentService()
-            car_payment = payment_service.handle_car_payment(gate_history)
-            return  self.gate_hist_imp.update(gate_history)
+            car_payment, code, msg = payment_service.handle_car_payment(gate_history)
+            gate_history['Coin'] = -car_payment['Coin']
+            if code == -1:
+                return None, -1, msg
+            return self.gate_hist_imp.update(gate_history)
         except Exception as e:
             return None, -1, f'exception as {str(e)}'

@@ -39,9 +39,9 @@ class GateHistoryRepository(BaseRepository):
             return [dict(row) for row in result]
         
     def update(self, data):
-        stored_data = self.db.query(GateHistory).filter_by(Id=data['Id'])
-        stored_data.update(data)
+        stored_data = self.db.query(GateHistory).filter_by(Id=data['Id']).update(data)
         self.db.commit()
-        self.db.refresh(stored_data)
         self.db.close()
-        return convert_model_to_json(stored_data, GateHistory)
+        if stored_data == 1:
+            return stored_data
+        return None

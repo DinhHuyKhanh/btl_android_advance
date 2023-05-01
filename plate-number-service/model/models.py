@@ -24,6 +24,7 @@ class GateHistory(Base):
   CheckOutDate = Column(DateTime, nullable=True)
   ImagePathCheckIn = Column(Text, nullable=True)
   ImagePathCheckOut = Column(Text, nullable=True)
+  Coin = Column(DECIMAL(10,2))
 
 
 class NumberPlate(Base):
