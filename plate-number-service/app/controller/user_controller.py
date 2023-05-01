@@ -1,5 +1,6 @@
 from fastapi import APIRouter
-from app.controller.schema import ResetPasswordSchema, UserLogin, UpdatePasswordSchema, UserSchema, UpdateUserSchema
+from app.controller.schema import ResetPasswordSchema, UserLogin, \
+    UpdatePasswordSchema, UserSchema, UpdateUserSchema, AddMoneySchema
 from util.helper import wrap_list_responses, wrap_responses
 from app.settings import UserModelImp, UserModelImp, UserService
 
@@ -46,6 +47,12 @@ async def update(id: int, user: UpdateUserSchema):
 async def update_password(id: int, update_password: UpdatePasswordSchema):
     update_password = update_password.dict()
     return UserService().update_password(id, update_password, UserModelImp())
+
+@router.put('/{id}/addMoney')
+@wrap_responses
+async def add_money(id: int, add_money: AddMoneySchema):
+    add_money = add_money.dict()
+    return UserService().add_money(id, add_money, UserModelImp())
 
 @router.post('/login')
 @wrap_responses
