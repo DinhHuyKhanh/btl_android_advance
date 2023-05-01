@@ -1,3 +1,4 @@
+from app.service.payment_service import PaymentService
 from model.implementation.gate_history_implement import GateHistoryImplement
 from model.implementation.plate_implement import PlateImplement
 import datetime
@@ -35,6 +36,9 @@ class GateHistoryService():
                 return self.create(number_plate, file_name)
             gate_history['ImagePathCheckOut'] = file_name
             gate_history['CheckOutDate'] = datetime.datetime.now()
+
+            payment_service = PaymentService()
+            car_payment = payment_service.handle_car_payment(gate_history)
             return  self.gate_hist_imp.update(gate_history)
         except Exception as e:
             return None, -1, f'exception as {str(e)}'

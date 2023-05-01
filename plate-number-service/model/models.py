@@ -34,4 +34,13 @@ class NumberPlate(Base):
   NumberPlate = Column(String(255), nullable=False)
   ImagePath = Column(Text)
 
-  
+class TransactionHistory(Base):
+    __tablename__ = 'transaction_history'
+
+    Id = Column(Integer, primary_key=True, index=True, autoincrement=True)
+    UserId = Column(Integer, nullable=False)
+    Coin = Column(DECIMAL(10,2))
+    CreatedDate = Column(DateTime)
+    Description = Column(String(255))
+    LastCoin = Column(DECIMAL(10,2))
+

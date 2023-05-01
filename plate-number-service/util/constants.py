@@ -6,3 +6,7 @@ class TableNames(Enum):
 
 class Code(Enum):
     LENGTH_CODE = 8
+
+class TransactionMsg(Enum):
+    CAR_DEPOSIT_PAYMENT="car deposit payment"
+    DEPOSITING="depositing"
