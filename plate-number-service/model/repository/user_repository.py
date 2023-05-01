@@ -4,8 +4,7 @@ from util.utils import convert_model_to_json
 from model.repository.base_repository import BaseRepository
 from model.models import UserData
 from sqlalchemy import text
-import json
-logger = logging.getLogger()
+# logger = logging.getLogger()
 
 class UserRepository(BaseRepository):
     def __init__(self) -> None:
@@ -20,7 +19,7 @@ class UserRepository(BaseRepository):
         filter["Id"] = id
         
         user = self.db.query(UserData).filter_by(**filter).first()
-        return user
+        return convert_model_to_json(user, UserData)
         
     def get_by(self, filter):
         user = self.db.query(UserData).filter_by(**filter).first()

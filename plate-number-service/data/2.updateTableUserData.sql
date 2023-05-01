@@ -17,3 +17,13 @@ CREATE TABLE IF NOT EXISTS number_plate(
 
 ALTER TABLE `gate_history`
 MODIFY  COLUMN  `NumberPlate` VARCHAR(255);
+
+
+alter table transaction_history
+add column Id INT unsigned not null auto_increment primary key;
+
+alter table transaction_history
+add column LastCoin Decimal(10,2);
+
+alter table transaction_history
+change description Description VARCHAR(255);

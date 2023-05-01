@@ -4,7 +4,6 @@ from sqlalchemy import text
 from model.repository.base_repository import BaseRepository
 from model.models import GateHistory
 from util.constants import TableNames
-logger = logging.getLogger()
 
 class GateHistoryRepository(BaseRepository):
     def __init__(self) -> None:
