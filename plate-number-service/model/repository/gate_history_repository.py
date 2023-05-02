@@ -45,3 +45,29 @@ class GateHistoryRepository(BaseRepository):
         if stored_data == 1:
             return stored_data
         return None
+    
+    def get_all(self, params):
+        with self.db as session:
+            result = session.execute(text(
+                f"""
+                    SELECT Id, UserId, NumberPlate, CheckInDate, CheckOutDate, ImagePathCheckIn, ImagePathCheckOut, Coin
+                    FROM {TableNames.GATE_HISTORY.value}
+                    WHERE CheckInDate BETWEEN :start_date and :end_date
+                    ORDER BY Id {params['sort']}
+                    LIMIT :limit 
+                    OFFSET :offset
+                """
+            ).params(
+                limit=params['limit'],
+                offset=params['offset']*params['limit'],
+                end_date=params['end_date'],
+                start_date=params['start_date']
+            ))
+            rows= [dict(row) for row in result.fetchall()]
+            return rows
+    def count_gate_history(self):
+        count = self.db.query(GateHistory).count()
+        if not count: 
+            count = 0
+        return count
+

@@ -48,7 +48,7 @@ class PlateImplement(PlateModel):
         item = self.plate_repository.get_by_id(id)
         if item is None: 
             return None, -1, 'item not found'
-        item, 0, 'success'
+        return item, 0, 'success'
     
     def update(self,id, plate):
         new_item = self.plate_repository.update(id, plate)
