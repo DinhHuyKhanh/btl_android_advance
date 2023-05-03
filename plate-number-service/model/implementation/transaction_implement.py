@@ -15,3 +15,8 @@ class TransactionImplement(TransactionModel):
             return None, -1, 'create transaction fail'
         return transaction_stored, 0, 'create transaction success'
 
+    def get_all_by(self, filter=None):
+        transactions = self.transaction_repository.get_all_by(filter)
+        if transactions is None:
+            return None, -1, 'get transactions fail'
+        return transactions, 0, 'get transactions success'

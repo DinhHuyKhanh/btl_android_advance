@@ -4,6 +4,7 @@ from app.controller.plate_controller import router as plate_router
 from app.controller.email_controller import router as email_router
 from app.controller.qr_code_controller import router as qrcode_router
 from app.controller.gate_history_controller import router as gate_history_router
+from app.controller.transaction_history_controller import router as transaction_history_router
 
 api_router = APIRouter(
     prefix='/api/v1'
@@ -14,3 +15,4 @@ api_router.include_router(plate_router)
 api_router.include_router(email_router)
 api_router.include_router(qrcode_router)
 api_router.include_router(gate_history_router)
+api_router.include_router(transaction_history_router)
