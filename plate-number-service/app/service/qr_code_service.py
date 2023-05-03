@@ -8,7 +8,7 @@ class QrCodeService():
         user, _, _ = model.get_by_id(id)
 
         if user:
-            return self.__process_create_qrcode(user.Id)
+            return self.__process_create_qrcode(user["Id"])
 
         return None
         

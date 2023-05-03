@@ -72,7 +72,7 @@ class UserDataService():
             if user is None:
                 return None, -1, 'User not exist'
 
-            if self.__compare_password(data['old_password'], user.Password) == -1:
+            if self.__compare_password(data['old_password'], user["Password"]) == -1:
                 return None, -1, 'Password not correct'
             
             data['new_password'] = self.__encode_password(data['new_password'])
