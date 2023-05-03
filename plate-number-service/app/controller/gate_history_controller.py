@@ -13,12 +13,6 @@ router = APIRouter(
 async def get_all_gate_histories(id: int):
     return GateService().get_all_gate_histories(id, GateHistoryImplement())
 
-@router.post('')
-@wrap_responses
-async def create(data: GateHistorySchema):
-    data = data.dict()
-    return GateService().create(data, GateHistoryImplement())
-
 @router.get('/all/')
 @wrap_list_responses
 async def get_all(limit: int = 20, offset: int = 0, sort: str ='asc', start_date = None , end_date = None):
