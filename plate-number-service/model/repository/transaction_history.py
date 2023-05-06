@@ -1,6 +1,8 @@
+from sqlalchemy import func
+import sqlalchemy
 from model.models import TransactionHistory
 from model.repository.base_repository import BaseRepository
-from util.utils import convert_model_to_json
+from util.utils import convert_model_to_json, convert_tuple_to_list
 
 
 class TransactionRepository(BaseRepository):
@@ -15,5 +17,12 @@ class TransactionRepository(BaseRepository):
         return convert_model_to_json(new_transaction, TransactionHistory)
     
     def get_all_by(self, filter=None):
-        transactions = self.db.query(TransactionHistory).filter_by(**filter).all()
+        transactions = self.db.query(func.month(TransactionHistory.CreatedDate), func.year(TransactionHistory.CreatedDate)).distinct().filter_by(**filter).all()
+        return convert_tuple_to_list(transactions)
+    
+    def get_transactions_by_month_and_year(self, month, year, filter=None):
+        transactions = self.db.query(TransactionHistory).filter(
+                sqlalchemy.extract('year', TransactionHistory.CreatedDate) == year,
+                sqlalchemy.extract('month', TransactionHistory.CreatedDate) == month
+            ).filter_by(**filter).all()
         return transactions

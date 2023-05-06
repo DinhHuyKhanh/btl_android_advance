@@ -20,3 +20,9 @@ class TransactionImplement(TransactionModel):
         if transactions is None:
             return None, -1, 'get transactions fail'
         return transactions, 0, 'get transactions success'
+
+    def get_transactions_by_month_and_year(self, month, year, filter=None):
+        transactions = self.transaction_repository.get_transactions_by_month_and_year(month, year, filter)
+        if transactions is None:
+            return None, -1, 'get transactions fail'
+        return transactions, 0, 'get transactions success'
