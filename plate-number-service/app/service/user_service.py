@@ -1,4 +1,5 @@
 import bcrypt
+from app.service.payment_service import PaymentService
 
 class UserDataService():
 
@@ -121,6 +122,12 @@ class UserDataService():
                 return None, -1, 'User not exist'
 
             update = {"Coin": data["money"] + user['Coin']}
+
+            payment_service = PaymentService()
+            car_payment, code, msg = payment_service.add_money(user_id, data["money"])
+
+            if car_payment is None:
+                return None, -1, 'Car not exist'
 
             return model.update(user_id, update)
         except Exception as e:

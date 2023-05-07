@@ -10,11 +10,14 @@ import time
 class PlateService():
 
     def __init__(self) -> None:
-        self.net = cv2.dnn.readNetFromDarknet(f'{SAVE_MODEL}/yolov4-tiny-custom.cfg', f'{SAVE_MODEL}/yolov4-tiny-custom_best.weights')
-        self.ocr = PaddleOCR(use_angle_cls=True, lang='en')
-        self.model = cv2.dnn_DetectionModel(self.net)
-        self.model.setInputParams(scale=1 / 255, size=(416, 416), swapRB=True)
-        pass
+        try:
+            self.net = cv2.dnn.readNetFromDarknet(f'{SAVE_MODEL}/yolov4-tiny-custom.cfg', f'{SAVE_MODEL}/yolov4-tiny-custom_best.weights')
+            self.ocr = PaddleOCR(use_angle_cls=True, lang='en')
+            self.model = cv2.dnn_DetectionModel(self.net)
+            self.model.setInputParams(scale=1 / 255, size=(416, 416), swapRB=True)
+            pass
+        except:
+            print(f'exception as {str(e)}')
 
     def save_local(self, image: UploadFile):
         os.makedirs(STATIC_MEDIA, exist_ok=True)

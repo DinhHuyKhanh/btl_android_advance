@@ -33,6 +33,24 @@ class PaymentService():
         except Exception as e:
             return None, -1, f'Exception as: {str(e)}'
 
+    def add_money(self, user_id, coin):
+        try:
+            user_data, code, _ = self.__update_coin_user(user_id, coin)
+            if user_data is None or code == -1:
+                return None, -1, 'User not found'
+
+            transaction_data = {
+                "UserId": user_id,
+                "Coin": +coin,
+                "LastCoin": user_data['Coin'],
+                "CreatedDate": datetime.now(),
+                "Description": TransactionMsg.CAR_CREDIT_PAYMENT.value
+            }
+
+            return self.transaction_imp.create(transaction_data)
+        except Exception as e:
+            return None, -1, f'Exception as: {str(e)}'
+
     def __update_coin_user(self, user_id, coin):
         user_imp = UserImplement()
         user_data, code, msg = user_imp.get_by_id(user_id)

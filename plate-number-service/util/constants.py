@@ -10,3 +10,5 @@ class Code(Enum):
 class TransactionMsg(Enum):
     CAR_DEPOSIT_PAYMENT="car deposit payment"
     DEPOSITING="depositing"
+    CAR_CREDIT_PAYMENT = "car credit payment"
+    CREDITING = "crediting"

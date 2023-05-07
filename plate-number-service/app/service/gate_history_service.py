@@ -32,7 +32,7 @@ class GateHistoryService():
                 gate_history = None 
             else: 
                 gate_history = gate_history[0]
-            if (not gate_history or gate_history['CheckOutDate']):
+            if not gate_history or gate_history['CheckOutDate']:
                 return self.create(number_plate, file_name)
             gate_history['ImagePathCheckOut'] = file_name
             gate_history['CheckOutDate'] = datetime.now()
@@ -47,11 +47,11 @@ class GateHistoryService():
 
     def get_all(self,limit, offset, sort, start_date, end_date , model):
         try:
-            if end_date is None: 
+            if end_date is None:
                 start_date = date.today() -  timedelta(days=90)
                 end_date = date.today()
             params = {
-                'limit': limit, 
+                'limit': limit,
                 'offset': offset,
                 'sort': sort,
                 'start_date': str(start_date),
